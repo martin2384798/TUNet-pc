@@ -5,7 +5,8 @@ Controller::Controller()
     network = new Network;
     loginUi = new LoginUi;
     loadingUi = new LoadingUi;
-    accountUi = new AccountUi;
+    ipUi = new IpUi;
+    accountUi = new AccountUi(ipUi);
 
     loginUi->setWindowFlags(Qt::Tool);
     loadingUi->setWindowFlags(Qt::Tool);
@@ -21,7 +22,7 @@ Controller::Controller()
     trayIcon->setIcon(QIcon(":/imgs/images/logo.png"));
     trayIcon->show();
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconClicked(QSystemTrayIcon::ActivationReason)));
-    
+
 
     //登陆
     connect(loginUi, SIGNAL(loginSignal(QString, QString)),
@@ -59,6 +60,12 @@ Controller::Controller()
     connect(network, SIGNAL(infoSignal(Info)),
             accountUi, SLOT(infoSlot(Info)));
 
+    //下线IP
+    connect(ipUi, SIGNAL(logoutRequest(int)),
+            network, SLOT(dropIpSlot(int)));
+    connect(network, SIGNAL(dropIpSucceed()),
+            this, SLOT(onTimeOut()));
+
     //断开
     connect(accountUi, SIGNAL(logoutSignal()),
             network, SLOT(logoutSlot()));
@@ -72,7 +79,6 @@ Controller::Controller()
     //断开失败
     connect(network, SIGNAL(logoutFail(Info)),
             accountUi, SLOT(logoutFailSlot(Info)));
-
 }
 
 void Controller::showUi(kind which)

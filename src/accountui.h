@@ -5,6 +5,7 @@
 #include "ipui.h"
 #include "info.h"
 #include "failui.h"
+#include "dataformatter.h"
 
 #include <QWidget>
 #include <qtimer.h>
@@ -18,7 +19,7 @@ class AccountUi : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AccountUi(QWidget *parent = 0);
+    explicit AccountUi(IpUi *ip, QWidget *parent = 0);
     ~AccountUi();
 
 public:
@@ -29,7 +30,7 @@ private:
     AboutUi *aboutUi;
     FailUi *logoutFail;
     QTimer *timer;
-    IpUi *ip[3];
+    IpUi *ip;
 
 signals:
     void logoutSignal();

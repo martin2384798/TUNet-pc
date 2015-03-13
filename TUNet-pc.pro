@@ -22,7 +22,8 @@ SOURCES += \
     src/info.cpp \
     src/loadingui.cpp \
     src/failui.cpp \
-    src/ipui.cpp
+    src/ipui.cpp \
+    src/dataformatter.cpp
 
 HEADERS  += \
     src/loginui.h \
@@ -33,7 +34,8 @@ HEADERS  += \
     src/info.h \
     src/loadingui.h \
     src/failui.h \
-    src/ipui.h
+    src/ipui.h \
+    src/dataformatter.h
 
 FORMS    += \
     form/loginui.ui \

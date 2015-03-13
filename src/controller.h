@@ -24,6 +24,7 @@ private:
     LoginUi *loginUi;
     LoadingUi *loadingUi;
     AccountUi *accountUi;
+    IpUi *ipUi;
     QMenu *trayMenu;
     QSystemTrayIcon *trayIcon;
     enum kind{change, login, loading, account} last;

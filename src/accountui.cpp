@@ -3,10 +3,11 @@
 #include "accountui.h"
 #include "ui_accountui.h"
 
-AccountUi::AccountUi(QWidget *parent) :
+AccountUi::AccountUi(IpUi *ipUi, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AccountUi)
 {
+    ip = ipUi;
     ui->setupUi(this);
     aboutUi = new AboutUi;
     timer = new QTimer;
@@ -20,12 +21,7 @@ AccountUi::AccountUi(QWidget *parent) :
             this, SLOT(logoutClicked()));
     connect(timer, SIGNAL(timeout()), this, SLOT(timeIncrement()));
 
-    ip[0] = new IpUi(0);
-    ip[1] = new IpUi(1);
-    ip[2] = new IpUi(2);
-    ui->verticalLayout_2->addWidget(ip[0]);
-    ui->verticalLayout_2->addWidget(ip[1]);
-    ui->verticalLayout_2->addWidget(ip[2]);
+    ui->verticalLayout_2->addWidget(ip);
 
     this->setFixedSize(320, 340);
     ui->extendWidget->setVisible(false);
@@ -47,28 +43,20 @@ void AccountUi::logoutClicked()
 
 void AccountUi::infoSlot(Info info)
 {
-
     QString flowText, moneyText;
     if (info.infoType == Info::LoginInfo) {
-        flowText = ">=" + info.accountInfo.ipInfo[0].trafficForm(info.accountInfo.roughTraffic);
+        flowText = ">=" + DataFormatter::trafficForm(info.accountInfo.roughTraffic);
         moneyText = "Loading...";
     }
     else {
-        flowText = info.accountInfo.ipInfo[0].trafficForm(info.accountInfo.totalAccurateTraffic);
+        flowText = DataFormatter::trafficForm(info.accountInfo.totalAccurateTraffic);
         moneyText = QString::number(info.accountInfo.balance, 'f', 2) + "RMB";
     }
     ui->username->setText(info.accountInfo.userName);
     ui->flowNumber->setText(flowText);
     ui->moneyNumber->setText(moneyText);
-
     if (info.infoType == Info::QueryInfo)
-    {
-        for (int i = 0; i < info.accountInfo.onlineIpCount; ++i)
-            ip[i]->showIp(info.accountInfo.ipInfo[i]);
-
-        for (int i = info.accountInfo.onlineIpCount; i < 3; ++i)
-            ip[i]->hideIp();
-    }
+        ip->showIp(info);
 }
 
 void AccountUi::checkResultSlot(Info info)
@@ -80,19 +68,13 @@ void AccountUi::checkResultSlot(Info info)
     }
 }
 
-QString timeForm(int k)
-{
-    if (k < 10)
-        return "0" + QString::number(k);
-    else
-        return QString::number(k);
-}
-
 void AccountUi::timeIncrement()
 {
     if (onlineTime >= 0) {
         onlineTime++;
-        QString timeText = timeForm(onlineTime / 60 / 60) + ":" + timeForm(onlineTime / 60 % 60) + ":" + timeForm(onlineTime % 60);
+        QString timeText = DataFormatter::timeForm(onlineTime / 60 / 60) + ":" +
+                           DataFormatter::timeForm(onlineTime / 60 % 60) + ":" +
+                           DataFormatter::timeForm(onlineTime % 60);
         ui->timeNumber->setText(timeText);
     }
     else {

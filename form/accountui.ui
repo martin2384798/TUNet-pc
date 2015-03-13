@@ -270,10 +270,10 @@
   <widget class="QPushButton" name="extendButton">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>280</y>
-     <width>181</width>
-     <height>31</height>
+     <x>150</x>
+     <y>325</y>
+     <width>30</width>
+     <height>5</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -284,14 +284,14 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>0</width>
-     <height>0</height>
+     <width>30</width>
+     <height>5</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>16777215</width>
-     <height>16777215</height>
+     <width>30</width>
+     <height>5</height>
     </size>
    </property>
    <property name="sizeIncrement">
