@@ -79,6 +79,9 @@ Controller::Controller()
     //断开失败
     connect(network, SIGNAL(logoutFail(Info)),
             accountUi, SLOT(logoutFailSlot(Info)));
+
+    if (loginUi->autoLogin)
+        emit loginUi->loginSignal(loginUi->username, loginUi->password);
 }
 
 void Controller::showUi(kind which)

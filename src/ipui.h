@@ -10,6 +10,7 @@
 #include <QLabel>
 #include <qtimer.h>
 #include <QPushButton>
+#include <QSettings>
 
 namespace Ui {
 class IpUi;
@@ -25,10 +26,15 @@ public:
     void showIp(Info);
 
 private:
+    Ui::IpUi *ui;
     QPushButton *logout[3];
     QLineEdit *name[3];
     QLabel *time[3], *traffic[3];
-    Ui::IpUi *ui;
+    int count;
+    QString address[3];
+    QString device[3];
+    QSettings settings;
+    void loadName();
 
 signals:
     void logoutRequest(int);
@@ -37,6 +43,7 @@ private slots:
     void logout0Clicked();
     void logout1Clicked();
     void logout2Clicked();
+    void saveName();
 };
 
 #endif // IPUI_H
