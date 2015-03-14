@@ -17,7 +17,7 @@ public:
 
 private:
     QNetworkAccessManager *manager;
-    QNetworkReply *queryReply, *loginReply, *logoutReply, *checkReply, *dropIpReply;
+    QNetworkReply *queryReply, *loginReply = NULL, *logoutReply, *checkReply, *dropIpReply;
 
     enum RequestType
     {

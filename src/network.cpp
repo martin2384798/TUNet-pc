@@ -211,6 +211,7 @@ void Network::checkSlot()
 void Network::loginFinished()
 {
     QNetworkReply *reply = loginReply;
+    loginReply = NULL;
     loginInfo.infoType = Info::LoginInfo;
     if (reply->error() == QNetworkReply::NoError) {
         QString dataReceived = reply->readAll();
@@ -318,5 +319,6 @@ void Network::dropIpFinished()
 }
 void Network::loginAbortSlot()
 {
-    loginReply->abort();
+    if (loginReply != NULL)
+        loginReply->abort();
 }
