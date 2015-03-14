@@ -95,7 +95,6 @@ void LoginUi::saveInfo()
         }
         settings.setValue("Password", tempPassword);
     }
-    settings.sync();
 }
 
 void LoginUi::loginClicked()

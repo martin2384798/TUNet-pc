@@ -12,6 +12,13 @@ IpUi::IpUi(QWidget *parent) :
     setStyleSheet(file->readAll());
     file->deleteLater();
 
+    connect(ui->name_1, SIGNAL(textChanged(QString)),
+            this, SLOT(saveName()));
+    connect(ui->name_2, SIGNAL(textChanged(QString)),
+            this, SLOT(saveName()));
+    connect(ui->name_3, SIGNAL(textChanged(QString)),
+            this, SLOT(saveName()));
+
     connect(ui->logout_1, SIGNAL(clicked()),
             this, SLOT(logout0Clicked()));
     connect(ui->logout_2, SIGNAL(clicked()),
@@ -31,10 +38,10 @@ IpUi::~IpUi()
 
 void IpUi::showIp(Info info)
 {
-    for (int i = 0; i < info.accountInfo.onlineIpCount; ++i)
+    count = info.accountInfo.onlineIpCount;
+    for (int i = 0; i < count; ++i)
     {
-//        name[i]->setText(info.accountInfo.ipInfo[i].macAdress);
-        name[i]->setText("Machine " + QString::number(i + 1));
+        address[i] = info.accountInfo.ipInfo[i].macAdress;
         time[i]->setText(DataFormatter::timeForm(info.accountInfo.ipInfo[i].onlineTime[0]) + ":" +
                          DataFormatter::timeForm(info.accountInfo.ipInfo[i].onlineTime[1]) + ":" +
                          DataFormatter::timeForm(info.accountInfo.ipInfo[i].onlineTime[2]));
@@ -44,7 +51,8 @@ void IpUi::showIp(Info info)
         traffic[i]->show();
         logout[i]->show();
     }
-    for (int i = info.accountInfo.onlineIpCount; i < 3; ++i)
+    loadName();
+    for (int i = count; i < 3; ++i)
     {
         name[i]->hide();
         time[i]->hide();
@@ -52,6 +60,21 @@ void IpUi::showIp(Info info)
         logout[i]->hide();
     }
 }
+
+void IpUi::loadName()
+{
+    for (int i = 0; i < count; ++i)
+        device[i] = settings.value(address[i], "Unknown").toString();
+    for (int i = 0; i < count; ++i)
+        name[i]->setText(device[i]);
+}
+
+void IpUi::saveName()
+{
+    for (int i = 0; i < count; ++i)
+        settings.setValue(address[i], name[i]->text());
+}
+
 
 void IpUi::logout0Clicked()
 {
