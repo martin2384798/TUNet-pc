@@ -23,6 +23,7 @@ public:
     ~LoginUi();
     QString username;
     QString password;
+    bool autoLogin = false;
 
 signals:
     void loginSignal(QString username, QString password);
