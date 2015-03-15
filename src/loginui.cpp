@@ -15,7 +15,7 @@ LoginUi::LoginUi(QWidget *parent) :
     file->open(QFile::ReadOnly);
     setStyleSheet(file->readAll());
     file->deleteLater();
-    ui->password->setEchoMode(QLineEdit::Password);
+    ui->password->setAttribute(Qt::WA_InputMethodEnabled, false);
     connect(ui->autoLogin, SIGNAL(stateChanged(int)),
             this, SLOT(selectSavePassword(int)));
     connect(ui->savePassword, SIGNAL(stateChanged(int)),

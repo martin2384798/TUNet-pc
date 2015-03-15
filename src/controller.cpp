@@ -92,29 +92,32 @@ void Controller::showUi(kind which)
         if (loadingUi->isVisible()) loadingUi->hide();
         if (accountUi->isVisible()) accountUi->hide();
     }
+    QWidget* window;
     switch (which)
     {
         case change:
-            if (last == login)
-                loginUi->setVisible(!loginUi->isVisible());
-            if (last == loading)
-                loadingUi->setVisible(!loadingUi->isVisible());
-            if (last == account)
-                accountUi->setVisible(!accountUi->isVisible());
+            if (last == login) window = loginUi;
+            if (last == loading) window = loadingUi;
+            if (last == account) window = accountUi;
             break;
         case login:
-            loginUi->show();
+            window = loginUi;
             last = login;
             break;
         case loading:
-            loadingUi->show();
+            window = loadingUi;
             last = loading;
             break;
         case account:
-            accountUi->show();
+            window = accountUi;
             last = account;
             break;
     }
+    if (which != change || !window->isVisible()) {
+        window->show();
+        window->activateWindow();
+    }
+    else window->hide();
 }
 
 void Controller::setTimer()

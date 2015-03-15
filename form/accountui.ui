@@ -57,6 +57,13 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>fangy14</string>
    </property>
@@ -148,6 +155,11 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+    </font>
+   </property>
    <property name="text">
     <string>Loading...</string>
    </property>
@@ -161,6 +173,11 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+    </font>
+   </property>
    <property name="text">
     <string>Loading...</string>
    </property>
@@ -173,6 +190,11 @@
      <width>181</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+    </font>
    </property>
    <property name="text">
     <string>Loading...</string>
@@ -258,7 +280,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>50</y>
+     <y>60</y>
      <width>259</width>
      <height>3</height>
     </rect>

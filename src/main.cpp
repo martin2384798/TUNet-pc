@@ -12,6 +12,13 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("tunet");
     QApplication a(argc, argv);
     a.setQuitOnLastWindowClosed(false);
-    Controller controller;
-    return a.exec();
+    try {
+        Controller controller;
+        return a.exec();
+    }
+    catch(std::exception e){
+        QMessageBox *msg = new QMessageBox(QMessageBox::Critical, "Boom!",
+            QString("TUNet exploded because ") + QString(e.what()), QMessageBox::Ok);
+        msg->exec();
+    }
 }
