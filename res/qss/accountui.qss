@@ -18,6 +18,7 @@ QLabel#username {
 	font-size: 24px;
 	color: #808080;
 	qproperty-alignment: AlignCenter;
+        font-family: Verdana;
 }
 
 QLabel#flowLabel,#timeLabel,#moneyLabel {
@@ -29,6 +30,7 @@ QLabel#flowNumber,#timeNumber,#moneyNumber {
 	font-size: 24px;
 	color: #4c4c4c;
 	qproperty-alignment: AlignCenter;
+        font-family: Verdana
 }
 
 QPushButton {

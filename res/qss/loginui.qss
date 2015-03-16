@@ -20,4 +20,5 @@ QLineEdit {
 	padding: 7% 0;
 	border-radius:5px;
 	border: 1px solid grey;
+        font-family: Verdana;
 }

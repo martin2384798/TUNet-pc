@@ -24,6 +24,8 @@ LoginUi::LoginUi(QWidget *parent) :
             this, SLOT(saveInfo()));
     connect(ui->loginButton, SIGNAL(clicked()),
             this, SLOT(loginClicked()));
+
+    ui->password->setAttribute(Qt::WA_InputMethodEnabled, false);
 }
 
 LoginUi::~LoginUi()

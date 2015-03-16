@@ -10,6 +10,7 @@
 #include <QWidget>
 #include <qtimer.h>
 #include <QCloseEvent>
+#include <QPropertyAnimation>
 
 namespace Ui {
 class AccountUi;
@@ -31,6 +32,7 @@ private:
     FailUi *logoutFail;
     QTimer *timer;
     IpUi *ip;
+    QPropertyAnimation animation;
 
 signals:
     void logoutSignal();

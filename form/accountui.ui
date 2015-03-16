@@ -12,14 +12,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>320</width>
-    <height>420</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>320</width>
-    <height>420</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -56,13 +56,6 @@
      <width>141</width>
      <height>61</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
    </property>
    <property name="text">
     <string>fangy14</string>
@@ -155,11 +148,6 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-    </font>
-   </property>
    <property name="text">
     <string>Loading...</string>
    </property>
@@ -173,11 +161,6 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-    </font>
-   </property>
    <property name="text">
     <string>Loading...</string>
    </property>
@@ -190,11 +173,6 @@
      <width>181</width>
      <height>31</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Verdana</family>
-    </font>
    </property>
    <property name="text">
     <string>Loading...</string>

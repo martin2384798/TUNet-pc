@@ -23,7 +23,7 @@ AccountUi::AccountUi(IpUi *ipUi, QWidget *parent) :
 
     ui->verticalLayout_2->addWidget(ip);
 
-    this->setFixedSize(320, 340);
+    this->resize(320, 340);
     ui->extendWidget->setVisible(false);
     ui->extendButton->setCheckable(true);
 
@@ -93,10 +93,22 @@ void AccountUi::adjustWindow(bool state)
 {
     ui->extendWidget->setVisible(state);
     if (state)
-        this->setFixedSize(320, 425);
-    else
-        this->setFixedSize(320, 340);
-}
+    {
+        animation.setTargetObject(this);
+        animation.setPropertyName("geometry");
+        animation.setEasingCurve(QEasingCurve::OutQuart);
+        animation.setDuration(500);
+        animation.setEndValue(QRect(this->geometry().x(), this->geometry().y(), 320, 425));
+        animation.start();
+    }
+    else {
+        animation.setTargetObject(this);
+        animation.setPropertyName("geometry");
+        animation.setEasingCurve(QEasingCurve::InQuart);
+        animation.setDuration(500);
+        animation.setEndValue(QRect(this->geometry().x(), this->geometry().y(), 320, 340));
+        animation.start();
+    }}
 
 void AccountUi::closeEvent(QCloseEvent *event)
 {

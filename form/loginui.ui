@@ -81,11 +81,6 @@
       </item>
       <item>
        <widget class="QLineEdit" name="username">
-        <property name="font">
-         <font>
-          <family>Verdana</family>
-         </font>
-        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
@@ -122,11 +117,6 @@
       </item>
       <item>
        <widget class="QLineEdit" name="password">
-        <property name="font">
-         <font>
-          <family>Verdana</family>
-         </font>
-        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
