@@ -33,6 +33,9 @@ private:
     QTimer *timer;
     IpUi *ip;
     QPropertyAnimation animation;
+    double roughTraffic = 0, thisSessionTraffic = 0;
+    bool hasAccurateTraffic = false;
+    void updateTraffic();
 
 signals:
     void logoutSignal();

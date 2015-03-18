@@ -2,10 +2,10 @@
 #define NETWORK_H
 
 #include "info.h"
-#include <QObject>
 #include <QtNetwork>
-#include <QtWebKit>
-#include <QtWebKitWidgets>
+#include <QWebPage>
+#include <QWebFrame>
+#include <QWebElement>
 
 class Network : public QObject
 {
@@ -14,7 +14,15 @@ class Network : public QObject
 public:
     Network();
     ~Network();
-
+    enum connectionState
+    {
+        Connected = 0,
+        NotInTsinghua,
+        NotAccessible,
+        NoConnection
+    };
+    QString getMac();
+    connectionState checkConnection();
 private:
     QNetworkAccessManager *manager;
     QNetworkReply *queryReply, *loginReply = NULL, *logoutReply, *checkReply, *dropIpReply;
@@ -38,7 +46,6 @@ public slots:
     void checkSlot();  //Check whether logged in, and get conneted time.
     void loginAbortSlot(); //Abort login
     void dropIpSlot(int);
-
 private slots:
     void queryFinished();
     void loginFinished();

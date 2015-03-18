@@ -6,9 +6,7 @@
 #include "info.h"
 #include "loadingui.h"
 #include "network.h"
-#include <QTimer>
-#include <QAction>
-#include <QMenu>
+#include <QtWidgets>
 
 class Controller : public QObject
 {
@@ -36,12 +34,12 @@ signals:
 private slots:
     void setTimer();
     void onTimeOut();
-    void onLoginStart(QString);
+    void onLoginStart(QString, QString);
     void onLoginSucceed();
     void onLogoutSucceed();
     void onLoginFail();
     void showUi(kind);
-    void creatTrayMenu();
+    void createTrayMenu();
     void quit();
     void showHide();
     void trayIconClicked(QSystemTrayIcon::ActivationReason);

@@ -100,7 +100,9 @@ void Network::getUserInfo(const QString &replyString)
             break;
         }
     }
-    queryInfo.accountInfo.roughTraffic = temp.toDouble();
+    queryInfo.accountInfo.roughTraffic = 0;
+    //queryInfo.accountInfo.roughTraffic = temp.toDouble();
+    //sometimes fails on first query.
     frame->deleteLater();
 }
 
@@ -168,24 +170,10 @@ void Network::getIpInfo(const QString &replyString)
 
 void Network::loginSlot(QString username, QString password)
 {
-    //Generate MD5 hash of the password
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(password.toLatin1());
     QString hashedPassword = hash.result().toHex();
-    //Get local MAC address. Cannot get correct MAC when there are some virtual machine.
-    QList<QNetworkInterface> interfaceList = QNetworkInterface::allInterfaces();
-    QString mac;
-    foreach(QNetworkInterface networkInterface, interfaceList) {
-        bool isRunning = networkInterface.flags().testFlag(QNetworkInterface::IsRunning);
-        bool isLoopback = networkInterface.flags().testFlag(QNetworkInterface::IsLoopBack);
-        bool isP2P = networkInterface.flags().testFlag(QNetworkInterface::IsPointToPoint);
-        if (isRunning || !isLoopback || !isP2P) {
-            mac = networkInterface.hardwareAddress();
-            break;
-        }
-    }
-
-    //Generate request packet and send it
+    QString mac = getMac();
     QString data = "username=" + username + "&password=" + hashedPassword + "&mac=" + mac + "&drop=0&type=1&n=100";
     QNetworkRequest request(QUrl("http://net.tsinghua.edu.cn/cgi-bin/do_login"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -321,4 +309,37 @@ void Network::loginAbortSlot()
 {
     if (loginReply != NULL)
         loginReply->abort();
+}
+
+Network::connectionState Network::checkConnection()
+{
+    QNetworkSession ssn(manager->activeConfiguration());
+    if (ssn.state() == ssn.Connected) {
+        QHostInfo info = QHostInfo::fromName("www.baidu.com");
+        if (info.error() == info.NoError) {
+            foreach(QHostAddress addr, ssn.interface().allAddresses())
+            {
+                if (addr.protocol() == QAbstractSocket::IPv4Protocol
+                    && (addr.isInSubnet(QHostAddress::parseSubnet("59.66.0.0/16"))
+                    || addr.isInSubnet(QHostAddress::parseSubnet("166.111.0.0/16"))
+					|| addr.isInSubnet(QHostAddress::parseSubnet("101.5.0.0/16"))
+					|| addr.isInSubnet(QHostAddress::parseSubnet("101.6.0.0/16"))
+					|| addr.isInSubnet(QHostAddress::parseSubnet("183.173.0.0/16")))) {
+                    return Connected;
+                }
+            }
+            return NotInTsinghua;
+        }
+        else {
+            return NotAccessible;
+        }
+    }
+    else {
+        return NoConnection;
+    }
+}
+
+QString Network::getMac()
+{
+    return QNetworkSession(manager->activeConfiguration()).interface().hardwareAddress();
 }

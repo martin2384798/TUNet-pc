@@ -16,7 +16,7 @@ Controller::Controller()
     timer->stop();
     showUi(login);
 
-    creatTrayMenu();
+    createTrayMenu();
     trayIcon = new QSystemTrayIcon;
     trayIcon->setContextMenu(trayMenu);
     trayIcon->setIcon(QIcon(":/imgs/images/logo.png"));
@@ -26,9 +26,7 @@ Controller::Controller()
 
     //登陆
     connect(loginUi, SIGNAL(loginSignal(QString, QString)),
-            network, SLOT(loginSlot(QString, QString)));
-    connect(loginUi, SIGNAL(loginSignal(QString, QString)),
-            this, SLOT(onLoginStart(QString)));
+            this, SLOT(onLoginStart(QString,QString)));
 
     //登陆成功
     connect(network, SIGNAL(loginSucceed(Info)),
@@ -131,11 +129,34 @@ void Controller::onTimeOut()
     emit querySignal(loginUi->username, loginUi->password);
 }
 
-void Controller::onLoginStart(QString username)
+void Controller::onLoginStart(QString username,QString password)
 {
-    loginUi->setEnabled(false);
-    loadingUi->setUsername(username);
-    showUi(loading);
+    Network::connectionState state = network->checkConnection();
+    if (state == Network::Connected) {
+        loginUi->setEnabled(false);
+        loadingUi->setUsername(username);
+        network->loginSlot(username, password);
+        showUi(loading);
+    }
+    else {
+        QString errorString;
+        switch (state) {
+        case Network::NoConnection:
+            errorString = "No Connection";
+            break;
+        case Network::NotAccessible:
+            errorString = "Cannot connect to Internet";
+            break;
+        case Network::NotInTsinghua:
+            errorString = "Not in Tsinghua network";
+            break;
+        }
+        FailUi *fail = new FailUi(errorString);
+        loginUi->setEnabled(true);
+        showUi(login);
+        fail->exec();
+        fail->deleteLater();
+    }
 }
 
 void Controller::onLoginSucceed()
@@ -158,7 +179,7 @@ void Controller::onLogoutSucceed()
     showUi(login);
 }
 
-void Controller::creatTrayMenu()
+void Controller::createTrayMenu()
 {
     trayMenu = new QMenu((QWidget*)QApplication::desktop());
 

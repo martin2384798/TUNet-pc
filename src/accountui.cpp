@@ -45,26 +45,39 @@ void AccountUi::infoSlot(Info info)
 {
     QString flowText, moneyText;
     if (info.infoType == Info::LoginInfo) {
-        flowText = ">=" + DataFormatter::trafficForm(info.accountInfo.roughTraffic);
-        moneyText = "Loading...";
+        hasAccurateTraffic = false;
+        roughTraffic = qMax(info.accountInfo.roughTraffic, roughTraffic);
     }
     else {
-        flowText = DataFormatter::trafficForm(info.accountInfo.totalAccurateTraffic);
-        moneyText = QString::number(info.accountInfo.balance, 'f', 2) + "RMB";
+        qDebug() << info.accountInfo.totalAccurateTraffic;
+        hasAccurateTraffic = true;
+        thisSessionTraffic = info.accountInfo.totalAccurateTraffic;
+        ui->username->setText(info.accountInfo.userName);
+        ui->moneyNumber->setText(QString::number(info.accountInfo.balance, 'f', 2) + "RMB");
     }
-    ui->username->setText(info.accountInfo.userName);
-    ui->flowNumber->setText(flowText);
-    ui->moneyNumber->setText(moneyText);
     if (info.infoType == Info::QueryInfo)
         ip->showIp(info);
+    updateTraffic();
 }
 
 void AccountUi::checkResultSlot(Info info)
 {
+    roughTraffic = qMax(info.accountInfo.roughTraffic, roughTraffic);
     int timeReceived = info.accountInfo.loginTime;
     if (onlineTime != timeReceived) {
         onlineTime = timeReceived;
         timer->start(1000); 
+    }
+    updateTraffic();
+}
+
+void AccountUi::updateTraffic()
+{
+    if (hasAccurateTraffic) {
+        ui->flowNumber->setText(DataFormatter::trafficForm(roughTraffic + thisSessionTraffic));
+    }
+    else {
+        ui->flowNumber->setText(">=" + DataFormatter::trafficForm(roughTraffic));
     }
 }
 
