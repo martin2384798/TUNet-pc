@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>qml/About.qml</file>
+        <file>qml/Account.qml</file>
+        <file>qml/Connection.qml</file>
+        <file>qml/ConnectionSingle.qml</file>
+        <file>qml/Main.qml</file>
+        <file>qml/User.qml</file>
+    </qresource>
+</RCC>
